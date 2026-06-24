@@ -1,5 +1,4 @@
-from math import floor
-from tdd import *
+from TDD.tdd import *
 
 #1. check even number
 def test_is_even():
