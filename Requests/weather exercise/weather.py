@@ -1,4 +1,5 @@
 import requests
+import sys
 
 POSTCODE_ENDPOINT = "https://api.postcodes.io/postcodes/"
 # constant string (URL) - postcode added on later (that can change)
@@ -17,7 +18,6 @@ def postcode_lookup(postcode):
 
     else:
         print((f"ERROR: Postcode not found")) #error message if postcode lookup fails
-
         return None
 
 ###################################
@@ -40,7 +40,14 @@ def get_weather(latitude, longitude): #get weather data using lat and long
 
 ##################
 
-postcode = input("Enter a UK postcode:") #asks user to enter postcode
+#postcode = input("Enter a UK postcode:") #input =
+#asks user to enter postcode
+
+if len(sys.argv) < 2: #if less than 2 args then fails
+    print(("Use: python weather.py <postcode>"))
+    sys.exit(1) #error
+
+postcode = sys.argv[1] #first arg after script name = postcode
 coordinates= postcode_lookup(postcode) #looks up coordinates
 weather = None #set variable so doesnt crash
 
@@ -49,7 +56,6 @@ if coordinates: #continue if postcode lookup successful
     weather = get_weather(latitude, longitude)
 
 if weather: #continue if weather data retrieved successfully
-
     location = weather["name"]
     temperature = weather["main"]["temp"]
     feels_like = weather["main"]["feels_like"] ##dictionary in dict in dict
@@ -62,6 +68,7 @@ if weather: #continue if weather data retrieved successfully
     print(f"Temperature - {temperature}°C")
     print(f"Feels Like - {feels_like}°C")
     print(f"Humidity: {humidity}%")
+    print(f"Conditions: {description}")
 
 
 
