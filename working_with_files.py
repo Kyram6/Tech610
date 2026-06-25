@@ -1,4 +1,4 @@
-file = open("order.txt", "w")
+file = open("Sparta_Restaurant/order.txt", "w")
 orders = [
     "Chocolate",
     "Chips",
@@ -16,4 +16,4 @@ file.close()
 
 #w overwrites itself
 #a+ for append add on
-#r
+#r reads

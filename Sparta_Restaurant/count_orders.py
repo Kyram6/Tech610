@@ -34,7 +34,7 @@
 #for dish, count in counts.items():
     #print(f"{dish}: {count}")
 
-# dictionary square brackets key - to find things in a dictionary
+# dictionary name square brackets key - to find things in a dictionary
 # e.g print(order["chicken"])
 
 import json
