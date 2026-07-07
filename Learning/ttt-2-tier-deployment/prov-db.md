@@ -63,3 +63,4 @@ sudo systemctl enable mongod #enable mongod
 Ensures `mongod` automatically starts if the VM reboots, without needing to manually run `systemctl start` again.
  
 ![Screenshot of MongoDB running and enabled](ss-prov-db.png)
+[Provision mongodb script](prov-db.sh)
