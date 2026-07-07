@@ -44,7 +44,7 @@ sudo apt-get install -y \
    mongodb-org-tools=8.2.5 \
    mongodb-org-database-tools-extra=8.2.5
 ```
-Installs the full MongoDB toolset — server, shell (`mongosh`), mongos (sharding router), and management tools — all pinned to the same version (8.2.5) for consistency across environments.
+Installs the full MongoDB toolset — all pinned to the same version (8.2.5) for consistency across environments.
  
 ### 7. Check, start, and verify MongoDB's status
 ```bash
