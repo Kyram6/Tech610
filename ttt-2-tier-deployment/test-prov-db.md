@@ -14,12 +14,13 @@
 
 1. scp -i ~/.ssh/kyram-tech610-key.pem /Users/kyramngoma/Tech610/Cloud/tiktaktoe.sh ubuntu@108.131.154.28:/home/ubuntu/
 1. scp -i ~/.ssh/kyram-tech610-key.pem ~/Downloads/nodejs20-sparta-tictactoe-v1-2.zip ubuntu@108.131.154.28:/home/ubuntu/
+
 1. run tictactoe.sh  (did it manually to test first)
 1. export MONGODB_URI=mongodb://172.31.60.67:27017/tic-tac-toe
 1. pm2 kill 
 1. pm2 start index.js
 
-# 🎮 Tic Tac Toe — 2-Tier Deployment
+# Tic Tac Toe — 2-Tier Deployment
 
 > Provisioning a MongoDB database VM and a Node.js app VM on AWS, connected via a private-network `MONGODB_URI`, so game data persists instead of running in-memory.
 
@@ -35,7 +36,7 @@
 
 ---
 
-## 🗄️ Database VM Setup
+## Database VM Setup
 
 ### 1. Create new instance
 Launched a fresh EC2 VM to host MongoDB, so the provisioning script could be tested from a clean state rather than an already-configured machine.
@@ -47,13 +48,13 @@ Chosen to match the MongoDB repo (`noble`) used in `prov-db.sh`, and is the LTS 
 ```bash
 scp -i ~/.ssh/kyram-tech610-key.pem \
   /Users/kyramngoma/Github/Tech610/Learning/ttt-2-tier-deployment/prov-db.sh \
-  ubuntu@52.17.132.107:/home/ubuntu/
+  ubuntu@[DB IP]:/home/ubuntu/
 ```
 Copies `prov-db.sh` from the local machine to the DB VM using the SSH key for authentication.
 
 ### 4. SSH into the DB VM
 ```bash
-ssh -i ~/.ssh/kyram-tech610-key.pem ubuntu@52.17.132.107
+ssh -i ~/.ssh/kyram-tech610-key.pem ubuntu@[DB IP]
 ```
 Connects into the VM to run the script and inspect the results directly.
 
@@ -89,7 +90,7 @@ sudo cat /etc/mongod.conf | grep bindIp
 
 ---
 
-## 🖥️ App VM Setup
+## App VM Setup
 
 ### 1. Launch fresh app VM
 A second, separate EC2 instance for the Node.js app, kept apart from the DB VM so each tier can be provisioned and tested independently.
@@ -98,14 +99,14 @@ A second, separate EC2 instance for the Node.js app, kept apart from the DB VM s
 ```bash
 scp -i ~/.ssh/kyram-tech610-key.pem \
   /Users/kyramngoma/Tech610/Cloud/tiktaktoe.sh \
-  ubuntu@108.131.154.28:/home/ubuntu/
+  ubuntu@[APP IP]:/home/ubuntu/
 ```
 Copies the actual app provisioning script (`tiktaktoe.sh`) — installs Node, nginx, and pm2, and starts the game server.
 
 ```bash
 scp -i ~/.ssh/kyram-tech610-key.pem \
   ~/Downloads/nodejs20-sparta-tictactoe-v1-2.zip \
-  ubuntu@108.131.154.28:/home/ubuntu/
+  ubuntu@[APP IP]:/home/ubuntu/
 ```
 A zipped copy of the app code, as a backup/alternative to `git clone`.
 
@@ -117,9 +118,9 @@ Ran by hand rather than trusting it blind, so each step's output could be checke
 
 ### 4. Set the database connection string
 ```bash
-export MONGODB_URI=mongodb://172.31.60.67:27017/tic-tac-toe
+export MONGODB_URI=mongodb://[PRIV DB IP]:27017/tic-tac-toe
 ```
-`172.31.60.67` is the DB VM's **private IP**, `27017` is Mongo's default port, and `tic-tac-toe` is the database name the app reads/writes to.
+`[PRIV DB IP]` is the DB VM's **private IP**, `27017` is Mongo's default port, and `tic-tac-toe` is the database name the app reads/writes to.
 
 ### 5. Reset and start the app with PM2
 ```bash
@@ -133,3 +134,4 @@ pm2 start index.js
 > MONGODB_URI=mongodb://172.31.60.67:27017/tic-tac-toe pm2 start index.js --name tictactoe
 > pm2 save
 > ```
+

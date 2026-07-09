@@ -1,7 +1,5 @@
  # Step-by-step breakdown
- ### SSH in 
- ssh -i ~/.ssh/kyram-tech610-key.pem ubuntu@[IP]
-
+ 
 ### 1. Update the package index
 ```
 sudo apt-get update -y
@@ -46,15 +44,15 @@ sudo apt-get install -y \
    mongodb-org-tools=8.2.5 \
    mongodb-org-database-tools-extra=8.2.5
 ```
-Installs the full MongoDB toolset — server, shell (`mongosh`), mongos (sharding router), and management tools — all pinned to the same version (8.2.5) for consistency across environments.
+Installs the full MongoDB toolset — all pinned to the same version (8.2.5) for consistency across environments.
  
 ### 7. Check, start, and verify MongoDB's status
 ```bash
-#sudo systemctl status mongod #takes up terminal 
+sudo systemctl status mongod
 
 sudo systemctl start mongod
 
-#sudo systemctl status mongod #check if running
+sudo systemctl status mongod # check if running
 ```
 `mongod` is the MongoDB daemon (the actual database server process).`status` checks if it's currently stopped/inactive after install; `start` launches it; the second `status` check confirms it's now running.
  
@@ -64,45 +62,5 @@ sudo systemctl enable mongod #enable mongod
 ```
 Ensures `mongod` automatically starts if the VM reboots, without needing to manually run `systemctl start` again.
  
-![Screenshot of MongoDB running and enabled](ss-prov-db.png)  
-
-[Provision mongodb script](prov-db.sh) 
-
-ssh -i ~/.ssh/kyram-tech610-key.pem ubuntu@3.255.100.34
-
---------------------
-
-sudo nano /etc/mongod.conf 
-
-cat /etc/mongod.conf | grep bindIp ### this finds key word only shows where it comes up
-  bindIp: 0.0.0.0
-
-sudo systemctl restart  mongod
-
--------
-## get app to connect to db 
-1. db vm running first 
-2. in the app folder:
-    - export MONGODB_URI://[private DB IP]
-    - export MONGODB_URI=mongodb://172.31.55.128:27017/tictactoe
-    printenv MONGODB_URI
-
-
-
-
-## troubleshoot app not connecting to db
-* environment variable - is it set correctly? does it have the right IP address?
-* DB security group rules?
-* does the app run without the database 
-* BindIP - set correctly?
-* Is the database actually running?
-
-## EXTRA
-
-### general troubleshooting
-* is it a systematic approach?
-* what is the easiest thing to check 
-* whats the most likely thing it could be 
-
-
-
+![Screenshot of MongoDB running and enabled](ss-prov-db.png)
+[Provision mongodb script](prov-db.sh)
