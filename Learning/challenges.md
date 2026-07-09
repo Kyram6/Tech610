@@ -2,7 +2,7 @@
 
 ## 1. File Paths and Directories
 
-**Status: Ongoing**
+**Status: solved**
 
 I struggled at times with navigating directories and making sure scripts were running from the correct location. This caused errors because I was sometimes running commands from the wrong directory, resulting in errors.
 
