@@ -36,24 +36,13 @@ Least to most effective:
 
 ### How you setup a dashboard:
 
-A typical setup (e.g., using a cloud provider's built-in monitoring, such as AWS CloudWatch):
- 
-1. Start an instance — Launch the EC2 instance that will run your application.
+- Start an instance(we used our images from earlier)
 
-2. Go to the monitoring service — Navigate to the monitoring/observability service tied to your cloud provider in this case CloudWatch in AWS
+- Go to monitoring 
 
-3. Create a dashboard — Create a new custom dashboard and give it a name.
+- Create dashboard 
 
-4. Add widgets/metrics — Add graphs for the key metrics you care about, such as:
-   - CPU Utilization
-   - Network In / Network Out
-   - Disk Read/Write
-   - Status Check Failures
-   - Request count / latency 
-
-5. Set the time range and refresh interval — So you can watch metrics update in near real-time while testing.
-
-6. (Optional) Save/pin the dashboard — So it's easy to return to during and after your load/stress tests.
+- Set the time range and refresh interval 
 
 ---
 ## What we did in the Code Along 
@@ -117,9 +106,9 @@ Each step moved further past normal traffic levels.. from a **load test** (can i
 
 The dashboard showed why: CPU and network usage on the instance climbing as we pushed more traffic at it.
 
-The dashboard offers visibility to see whats happening inside the VM.
+The dashboard offers visibility to see whats happening inside the VM
 
-Together, this showed that the server slows down well before it actually starts failing requests. Need to watch the dashboard to catch the slowdown early.
+Put together, this showed that the server slows down well before it actually starts failing requests. So watching for "no failed requests" isn't enough on its own — you need to watch the dashboard to catch the slowdown early.
 
 This combination is also what tells you:
 
