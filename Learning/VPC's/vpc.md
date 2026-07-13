@@ -53,10 +53,6 @@ Two subnets, in different AZs, carved out of the VPC's CIDR range:
   Destination: 0.0.0.0/0
   Target: Internet Gateway (your internet gateway)
 ```
-> This route is the actual mechanism behind "public subnet." A subnet isn't
-> public because you labeled it that way — it's public because its route
-> table has a path out to (and in from) the internet. The private subnet
-> skips this step entirely, which is what blocks internet access to it.
 
 Save changes
 
