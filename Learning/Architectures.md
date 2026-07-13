@@ -1,58 +1,53 @@
 # Monolith vs n-Tier vs Microservices
 
----
-
 ## Monolith
+One codebase, one deployment — frontend, business logic, and data access all live and deploy together.
 
-A single, unified codebase where the UI, business logic, and data access all live together and deploy as one unit.
+**Advantages**
+- Simple to develop, test, and deploy early on
+- No network overhead — everything runs in-process
+- Easier to reason about for small teams/apps
+- Simple local setup — one thing to run
 
-**Advantages:**
-- Simple to develop, test, and deploy early on — one codebase, one deployment
-- No network overhead between components (everything runs in-process)
-- Easier to reason about for small teams/small apps
-- Simpler local setup — one thing to run, not several
-
-**Disadvantages:**
-- Have to deploy the whole app at once, even for a small change
-- Slightly slower to start (entire app boots as one process)
-- Hard to scale selectively — if only one part is under heavy load, you still have to scale the entire app
-- Codebase can become harder to maintain as it grows (tightly coupled components)
-- One bug or crash can take down the entire application
+**Disadvantages**
+- Must deploy the whole app for even a small change
+- Slower to start (entire app boots as one process)
+- Can't scale selectively — high load on one part means scaling everything
+- Gets harder to maintain as it grows (tightly coupled)
+- One bug/crash can take down the whole app
 
 ---
 
 ## n-Tier (Multi-Tier)
+App split into layers — typically frontend, business logic, and data — developed/deployed/scaled somewhat independently, but still one coordinated system.
 
-Splits the app into separate layers — typically presentation, application/business logic, and data — which can be developed, deployed, and scaled somewhat independently, but still as part of one coordinated system.
+**Advantages**
+- App layer and database layer updated separately
+- Each tier scales independently (e.g. more app servers, same database)
+- Clearer separation of concerns → easier to maintain
+- Easier to swap/upgrade one tier without touching the others
 
-**Advantages:**
-- Can update the app layer and database layer separately
-- Can scale each tier separately (e.g. add more app servers without touching the database tier)
-- Clearer separation of concerns than a monolith, making the codebase easier to maintain
-- Easier to swap out or upgrade one tier without rewriting the others
-
-**Disadvantages:**
-- Deployment time is longer than a monolith (multiple layers to coordinate and deploy)
-- More moving parts than a monolith — more configuration and infrastructure to manage
-- Added network communication between tiers, which introduces latency and more potential points of failure
+**Disadvantages**
+- Slower to deploy than a monolith (multiple layers to coordinate)
+- More moving parts — more config/infrastructure to manage
+- Network communication between tiers adds latency + failure points
 
 ---
 
 ## Microservices
+App broken into many small, independent services, each owning one piece of functionality, talking over the network (usually APIs).
 
-Breaks the application into many small, independent services, each responsible for a single piece of functionality, communicating over the network (often via APIs).
+**Advantages**
+- Scale only the specific service under load
+- Teams develop/deploy/update services independently
+- One service failing doesn't necessarily take the whole app down
+- Each service can use its own tech stack
 
-**Advantages:**
-- Can be scaled separately — scale only the specific service under load
-- Teams can develop, deploy, and update services independently
-- A failure in one service doesn't necessarily take down the whole app
-- Each service can use a different tech stack/language if needed, based on what suits it best
-
-**Disadvantages:**
-- Complexity — many moving parts to build, deploy, monitor, and secure
-- Harder to test end-to-end, since a single user action might span several services
-- Network latency and reliability between services becomes a real concern
-- Requires more mature DevOps practices (service discovery, monitoring, orchestration — e.g. Docker/Kubernetes) to manage well
+**Disadvantages**
+- Complex to build, deploy, monitor, secure
+- Harder to test end-to-end (one action can span several services)
+- Network latency/reliability between services is a real concern
+- Needs mature DevOps (service discovery, monitoring, orchestration — Docker/Kubernetes)
 
 ---
 
@@ -64,24 +59,3 @@ Breaks the application into many small, independent services, each responsible f
 | Scaling | Whole app only | Per tier | Per service |
 | Complexity | Low | Medium | High |
 | Best for | Small apps, early-stage projects | Apps needing separate app/data scaling | Large, complex systems with independent teams |
-Advantages of monolith 
-
-disadvantages 
-- have to deploy all at once 
-slightly slower to start 
-
-advantages n-Tier 
-- update app and database sepratley 
-can scale seperatley 
-deployent time longer 
-
-disadvantages  n-Tier
-- deployent time longer 
-
-advantages of microservices 
-- can be scaled seperately
-
-disadvantegs of microservices 
-- complexity 
-
-
