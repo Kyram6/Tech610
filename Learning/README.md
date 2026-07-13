@@ -1,3 +1,0 @@
-# Sparta Exercises
-
-### 
