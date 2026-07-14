@@ -63,7 +63,10 @@ cat /etc/mongod.conf | grep bindIp  # did bindIp actually get changed to 0.0.0.0
 
  ### Blockers?
 
- - 
+ - PM2 port conflicts
+
+A previous PM2 process was already running from the app image, causing an EADDRINUSE (port already in use) error.
+Deleting existing PM2 processes (pm2 delete all/pm2 kill) before starting the app fixed the problem.
 
 
 
@@ -112,7 +115,7 @@ From the EC2 Console, with the working DB VM selected:
 2. No user data needed — the image already has MongoDB installed, `bindIp` set to `0.0.0.0`, and the service enabled to start on boot
 3. Once running, note its private IP (`hostname -I`, or check the EC2 console) — this will be different from the original DB VM's IP
 
-## Step 3 — Launch the App VM from the App Image with `run-app-only.sh`
+## Step 3 — Launch the App VM from the App Image.
 
 Since the app image already has the code and PM2 baked in, user data just needs to point it at the database and start it:
 
@@ -131,7 +134,7 @@ pm2 kill
 MONGODB_URI=$MONGODB_URI pm2 start index.js
 ```
 
-Replace `<new-db-vm-private-ip>` with the IP noted in Step 2.
+Replace `<new-db-vm-private-ip>` with the priv IP from DB.
 
 Notes:
 - `export MONGODB_URI=...` satisfies the task's explicit requirement to export the connection string.
@@ -145,4 +148,13 @@ Open the app VM's public IP/URL in the browser. The footer should show:
 ```
 Mode: Persistent with Mongo DB
 ```
+----
 
+## What to expect when launching app VM with user data
+
+How long to expect before app runs? approx. 4min
+
+1. An error (not being able to connect)
+1. NGINIX home page (rev proxy has not started)
+1. 502 error: bad gateway (rev proxy has started working, but app isnt running yet)
+1. app display 
