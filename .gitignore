@@ -1,6 +1,7 @@
-.DS_Store
-Cloud/
-DevOpsPython/
-flask-deployment/
 *_api_key
+.DS_Store
+__pycache__/
+*.pyc
+.idea/
+.venv/
 
