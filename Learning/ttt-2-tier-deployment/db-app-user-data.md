@@ -115,7 +115,11 @@ From the EC2 Console, with the working DB VM selected:
 2. No user data needed — the image already has MongoDB installed, `bindIp` set to `0.0.0.0`, and the service enabled to start on boot
 3. Once running, note its private IP (`hostname -I`, or check the EC2 console) — this will be different from the original DB VM's IP
 
+<<<<<<< HEAD
 ## Step 3 — Launch the App VM from the App Image.
+=======
+## Step 3 — Launch the App VM from the App Image with
+>>>>>>> 076301b8d554b82c8fc0a66b6fdf334ca74bb136
 
 Since the app image already has the code and PM2 baked in, user data just needs to point it at the database and start it:
 
