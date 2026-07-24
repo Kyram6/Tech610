@@ -24,10 +24,9 @@ The pipeline is pslit into 3 jobs:
 1. test
 2. merge
 3. deploy
-4. 
 
 **Benefits:**
-- Broken code never reaches main or production 
+- Broken code never reaches main
   - if tests fail in job 1, nothung gets merged or deployed 
 - deployment is automated 
   - git push to dev no manual SSH
@@ -39,12 +38,11 @@ The pipeline is pslit into 3 jobs:
 - Faster time to market
 - Reduced risk 
 - Consistency — every deploy runs identical steps, every time
+**The goal:** get code changes deployed to users as quickly as possible.
 
 
  
 ## Job 1 — CI: Test
- 
-**Purpose:** runs automated tests against the `dev` branch on every push.
  
 ### 1. Generate an SSH key pair for SCM
  
@@ -101,7 +99,7 @@ npm test
 
 ## Job 2 CI : merge
 
-**Purpose:** if Job 1 passes, merges the tested `dev` branch into `main` and pushes the result to GitHub.
+if Job 1 passes, job 2 merges the tested `dev` branch into `main` and pushes the result to GitHub.
  
 - **Name:** `kyram-job2-ttt-ci-merge`
 - **Description:** If tests pass on Job 1, Job 2 runs and merges `dev` into `main`.
@@ -137,7 +135,7 @@ ip of jenkins server.
 
 ## Job 3 — CD: Deploy
  
-**Purpose:** if Job 2 succeeds, copies the tested, merged code to the EC2 instance and restarts the app via PM2.
+if Job 2 succeeds, job 3 copies the tested, merged code to the EC2 instance and restarts the app via PM2.
  
 - **Name:** `kyram-job3-cd-deploy`
 - **Description:** Job 3 deploying app to EC2 instance.
