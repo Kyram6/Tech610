@@ -176,11 +176,11 @@ EOF
 ```js
 const configuredTimestamp = String(process.env.APP_FOOTER_TIMESTAMP || '').trim();
 ```
-
  
 ```bash
 nano +100 app/server.js
 ```
+Change date and time 
  
 To prove a new deploy:
 ```bash
@@ -204,9 +204,11 @@ A webhook lets GitHub notify Jenkins the instant code is pushed.
 1. Developer pushes a commit to the `dev` branch
 2. GitHub's webhook fires, notifying Jenkins immediately
 3. Job 1 (which has "GitHub hook trigger for GITScm polling" ticked) starts automatically
-4. If Job 1 is stable → Job 2 automatically starts (via "Build after other projects are built")
+4. If Job 1 is stable → Job 2 automatically starts ("Build after other projects are built")
 5. If Job 2 is stable → Job 3 automatically starts, same mechanism
-Job 3 only watches Job 2 (not Job 1 directly) — since Job 2 only goes stable if Job 1 also passed, watching Job 1 separately would be redundant and could trigger Job 3 twice.
+
+   
+Job 3 only watches Job 2, since Job 2 only goes stable if Job 1 also passed
 
 **Testing the webhook fired correctly**
  
@@ -233,8 +235,8 @@ Job 2's Git Publisher step failed with:
 ! [rejected] HEAD -> main (non-fast-forward)
 error: failed to push some refs to 'github.com:...'
 ```
- 
-**Why it happened:** a `README.me` file was accidentally created and added to both branches, then deleted — but only on `main`, not on `dev`. That deletion became its own commit on `main` that `dev` never had:
+
+`README.me` file was accidentally created and added to both branches, then deleted but only on `main` not on `dev`. That deletion became its own commit on `main` that `dev` never had:
  
 ```text
 main: A --- B (README.me added) --- C (README.me deleted)
@@ -256,7 +258,7 @@ git push origin dev
  
 **Why not Force Push instead?** Force Push overwrites remote history outright — commit `C` would simply vanish. Syncing branches keeps history intact and is safer for a shared repo.
  
-**Key learning:** avoid direct changes to `main` in a CI/CD workflow — make changes on `dev` and let Jenkins promote them. Even a small stray file can cause branches to diverge.
+avoid direct changes to `main` in a CI/CD workflow — make changes on `dev`.
 
 ### 2. Job 3 — Nested App Directory
  
@@ -283,7 +285,6 @@ scp -r app/* ubuntu@EC2:/home/ubuntu/app/
 7. Traced the root cause to the `scp` command copying the folder itself, not its contents
 8. Fixed the command, redeployed, and the new timestamp appeared
    
-**Key learning:** a successful pipeline run doesn't guarantee the correct files were deployed — verify each stage (Jenkins → file transfer → running process → actual output) individually when troubleshooting
 
 
 
