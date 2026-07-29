@@ -217,7 +217,7 @@ docker compose down
 
 ### YAML Parsing Error
 
-**What happened:** while editing the compose file, hit a parsing error:
+**What happened:** while editing the compose file i hit a parsing error:
 
 ```
 yaml: while parsing a block mapping at <unknown position>: line 7, column 2: did not find expected key
@@ -228,8 +228,6 @@ yaml: while parsing a block mapping at <unknown position>: line 7, column 2: did
 **Fix:** corrected the indentation and confirmed the file was valid with `docker compose config` before running it again.
 
 ### Dependency Cycle
-
-**What happened:** after a Docker Desktop restart stopped all containers, brought them back up and hit:
 
 ```
 dependency cycle detected: mongodb -> mongodb
