@@ -1,0 +1,21 @@
+services:
+  mongodb:
+    image: mongo:8.2.5
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+  app:
+    image: kyram6/tech610-tttapp:1.2.0
+    container_name: ttt-app
+    ports:
+      - "3000:3000"
+    environment:
+      MONGODB_URI: mongodb://mongodb:27017/tictactoe
+    depends_on:
+      - mongodb
+
+volumes:
+    mongodb_data:
