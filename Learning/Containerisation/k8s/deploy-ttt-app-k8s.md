@@ -71,8 +71,6 @@ kubectl get all     # confirm the NodePort is listed
 
 Check `http://localhost:30002/` in the browser.
 
-![alt text](<Screenshot 2026-07-30 at 12.49.11.png>)
-
 ## Step 4: adding Mongo
 
 ### `mongo-deploy.yml`
