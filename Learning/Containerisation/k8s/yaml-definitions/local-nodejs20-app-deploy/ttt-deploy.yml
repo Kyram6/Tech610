@@ -1,0 +1,24 @@
+apiVersion: apps/v1  # specify api to use for deployment
+kind: Deployment  # kind of service/object you want to create
+metadata:
+  name: ttt-deployment # name the deployment
+spec:
+  selector:
+    matchLabels:
+      app: ttt  # look for this label/tag to match with k8 service
+  # create a replica set of this with instances/pods
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: ttt
+      
+    spec:
+      containers:
+      - name: ttt-app
+        image: kyram6/tech610-tttapp:1.2.0 # the image you created to run nginx in a container
+        ports:
+        - containerPort: 3000
+        env:
+        - name: MONGODB_URI
+          value: "mongodb://mongo-svc:27017/ttt"

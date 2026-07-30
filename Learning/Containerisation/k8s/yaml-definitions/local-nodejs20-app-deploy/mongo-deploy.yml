@@ -1,0 +1,21 @@
+apiVersion: apps/v1  # specify api to use for deployment
+kind: Deployment  # kind of service/object you want to create
+metadata:
+  name: mongo-deployment # name the deployment
+spec:
+  selector:
+    matchLabels:
+      app: mongo  # look for this label/tag to match with k8 service
+  # create a replica set of this with instances/pods
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mongo
+      
+    spec:
+      containers:
+      - name: mongo
+        image: mongo:8.2.5 
+        ports:
+        - containerPort: 27017 #mongo port
