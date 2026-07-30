@@ -10,7 +10,7 @@
   * Need to protect data (as well as applications & services)
 * understanding how they can make best use of AI
 * containerisation -> Kubernetes
-* 
+  
 ## Intro to Kubernetes
  
 Kubernetes (k8s) = open source container orchestration platform
@@ -59,6 +59,7 @@ solves "run and manage lots of those containers, reliably, at scale".
   at launch — classic example of why auto-scaling matters
 * In conclusion: faster deployments, better hardware utilisation, more
   agility — but also a steep learning curve (YAML, new concepts) as the trade-off
+  
 ## Kubernetes architecture
  
 A cluster is split into two halves: the **control plane** (the brain, makes decisions) and the
@@ -134,50 +135,38 @@ level security is still on you).
 * **ConfigMap / Secret** — inject config and sensitive values into pods without baking them
   into the image.
 * **Namespace** — logical partition inside a cluster, used to separate workloads/teams/envs.
+
+  
 **What does it mean a pod is "ephemeral"?**
  
-Pods aren't meant to live forever — they can be killed and replaced at any time (node
-failure, scaling down, rolling update, being rescheduled), and when that happens they get a
-brand new pod (new IP, fresh filesystem), not resurrected in place. Anything written to a
-pod's local disk is lost when it goes. That's why:
+Pods aren't meant to live forever — they can be killed and replaced at any time 
+That's why:
 * apps running in k8s should be designed to be stateless where possible
 * actual state/data needs to live outside the pod — a Persistent Volume, or an external DB
 * I shouldn't rely on a pod's identity/IP staying the same — that's what Services are for
-## How to mitigate security concerns with containers
- 
-* **Scan images for vulnerabilities** before deploying (e.g. Trivy, Clair) and keep them
-  patched/up to date
-* **Use minimal base images** (Alpine/distroless) — fewer packages = smaller attack surface,
-  fewer CVEs
-* **Don't run as root** — create and run as a non-root user in the Dockerfile
-* **Only pull from trusted registries/official images** — don't pull random untrusted images
-* **Don't bake secrets into images** — use Kubernetes Secrets (or an external secrets manager)
-  instead
-* **Use RBAC** — least-privilege access to who/what can do what in the cluster
-* **Use Network Policies** — by default pods can talk to any other pod; restrict this
-* **Use Namespaces** — separate workloads so a compromise in one doesn't spread easily
-* **Read-only root filesystem / drop unnecessary Linux capabilities** where possible
-* **Runtime monitoring** — watch for unexpected process/network activity, not just build-time
-  scanning
-## Maintained images
- 
-**What are they** — base images (e.g. `node`, `python`, `nginx`, `postgres`) that are built
-and kept up to date by the language/tool maintainers or Docker's official images programme,
-rather than me building my own base image from scratch.
- 
-**Pros of using maintained images:**
-* patched/updated regularly by people who know that stack best
-* saves time — no need to write and maintain my own Dockerfile from the ground up
-* consistent, well-tested, widely used — lots of documentation/community support
-* usually well optimised for the runtime they're for
-**Cons of using maintained images:**
-* less control — I get what the maintainers decided to include, which may be more than I need
-  (bigger attack surface, bigger image) unless I pick a slim/alpine variant
-* still need to actually keep pulling updates myself — "maintained upstream" doesn't mean
-  auto-patched in my running containers
-* possible compatibility issues if I need very specific package versions or OS-level tweaks
-* for large orgs: standardising on a shared set of maintained images can limit flexibility
-  for individual teams' specific needs
+
+---
+## How to mitigate risks with containers
+* use maintained container images 
+* use automatic vulnerability scanning on container registry
+* use own security scanning tool on your container images 
+* NEVER run containers with root privileges 
+* monitor and/or log of container activity 
+
+## Maintained images 
+
+#### What is a maintained image 
+* A docker image that is regularly updated/managed by a maintainer 
+* usually the maintainer is an orginisation, a community, or an individual 
+  * example: canonical maintain ubuntu image 
+  
+### pros and cons of using maintained images for your base container images 
+* better security because regularly patched 
+* better stability 
+* more support & doc available 
+* usually they adhere to best practices/industry standards 
+* may be streamlined for performance or smaller image size
+
 
 ## Practical: deploying nginx (Deployment + Service)
  
@@ -229,30 +218,6 @@ kubectl get all   # can now see the nodeport
  
 Then visit `http://localhost:30001/` to see it live.
 
-## some commands to remember and what they do 
-
-
----
-## How to mitigate risks with containers
-* use maintained container images 
-* use automatic vulnerability scanning on container registry
-* use own security scanning tool on your container images 
-* NEVER run containers with root privileges 
-* monitor and/or log of container activity 
-
-## Maintained images 
-
-#### What is a maintained image 
-* A docker image that is regularly updated/managed by a maintainer 
-* usually the maintainer is an orginisation, a community, or an individual 
-  * example: canonical maintain ubuntu image 
-  
-### pros and cons of using maintained images for your base container images 
-* better security because regularly patched 
-* better stability 
-* more support & doc available 
-* usually they adhere to best practices/industry standards 
-* may be streamlined for performance or smaller image size 
 
 -----
 
@@ -261,7 +226,5 @@ increase replicas change replicas in nginx-deploy.yml best way works for me
 also
 
 kubectl scale --current-replicas=5 --replicas=6 deployment/nginx-deployment[name of deployment]
-
- 1 replica for database 
  3 for app 
 
